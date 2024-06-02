@@ -1,0 +1,68 @@
+#!/bin/bash
+
+echo "selamat datang di aplikasiku ini"
+read -p "masukkan berat badanmu(kg): " bb
+read -p "masukkan tinggi badan(m): " tb
+
+calculate_bim(){
+    beratBadan=$1
+    tinggiBadan=$2
+
+    bim=$(echo "scale=2; $beratBadan/($tinggiBadan * $tinggiBadan)"|bc -l)
+    echo $bim
+}
+
+category_bim(){
+    bim=$1
+
+    if [ $(echo "scale=2; $bim < 18.5"|bc -l) == "1" ]
+    then
+        echo "kurang gizi"
+    elif [ $(echo "scale=2; $bim >= 18.5 && $bim < 25"|bc -l) == "1" ]
+    then
+        echo "ideal"
+    else
+        echo "obesitas"
+    fi
+}
+
+main(){
+    result_of_bim=`calculate_bim $bb $tb`
+    echo "indeks massa tubuhmu: $result_of_bim"
+    status=`category_bim $result_of_bim`
+    echo -e "status: $status\n"
+
+    menu
+}
+
+menu(){
+    array_of_menu=("rekomendasi pola makan" "rekomendasi olahraga" "simpan pola diet sehat" "exit")
+    echo -e "menu utama:"
+    for((i=0; i < ${#array_of_menu[@]}; i++));do
+        echo "[$((i + 1))]${array_of_menu[$i]}"
+    done
+
+    read -p "pilih menu: " menu
+    case "$menu" in
+        "1")
+            clear
+            echo "menu 1";;
+        "2")
+            clear
+            echo "menu 2";;
+        "3")
+            clear
+            echo "menu 3";;
+        "4")
+            read -p "apakah anda yakin ingin keluar?[y/n]: " desicion
+            if [ $desicion == "y" ]
+            then 
+                exit 0
+            else
+                clear
+                main
+            fi;;
+    esac
+}
+
+main
