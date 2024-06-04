@@ -35,6 +35,71 @@ main(){
     menu
 }
 
+file_saving="untuk pola makan"
+file_saving2="untuk pola olahraga"
+
+saving(){
+    text=$1 #variabel untuk simpan rekomendasi pola makan
+    text2=$2 #variabel untuk simpan rekomendasi pola olahraga
+
+    read -p "apakah anda ingin membuat folder baru?[y/n]: " newDecision
+    if [ "$newDecision" == "y" ] || [ "$newDecision" == "Y" ]
+    then
+        read -p "masukkan nama folder baru: " nameOfFolder
+        if [ -d "$nameOfFolder" ]
+        then
+            echo "folder sudah ada"
+            sleep 2
+            clear
+            main
+        else
+            mkdir $nameOfFolder
+        fi
+        echo "folder $nameOfFolder berhasil dibuat"
+        read -p "masukkan nama file untuk menyimpan: " newFile
+        if [ -f "$newFile*" ]
+        then
+            echo "file sudah ada"
+            sleep 2
+            clear; main
+        else
+            diet_file="$newFile+polaMakan"
+            exercise_file="$newFile+polaOlahraga"
+        echo "file berhasil dibuat"
+        echo "menyimpan..."
+        sleep 1.5
+        echo $file_saving > $nameOfFolder/$diet_file
+        echo $file_saving2 > $nameOfFolder/$exercise_file
+        echo "berhasil menyimpan"
+        sleep 2
+        clear
+        main
+        fi
+    else
+        read -p "masukkan nama file untuk menyimpan: " newFile
+        if [ -f "$newFile+polaMakan" ] && [ -f "$newFile+polaOlahraga" ]
+        then
+            echo "file sudah ada"
+            sleep 2
+            clear
+            main
+        else
+            diet_file="$newFile+polaMakan"
+            exercise_file="$newFile+polaOlahraga"
+
+        echo "file berhasil dibuat"
+        echo "menyimpan..."
+        sleep 1.5
+        echo $file_saving > $diet_file
+        echo $file_saving2 > $exercise_file
+        echo "berhasil menyimpan"
+        sleep 2
+        clear
+        main
+        fi
+    fi
+}
+
 menu(){
     array_of_menu=("rekomendasi pola makan" "rekomendasi olahraga" "simpan pola diet sehat" "exit")
     echo -e "menu utama:"
@@ -52,16 +117,18 @@ menu(){
             echo "menu 2";;
         "3")
             clear
-            echo "menu 3";;
+            saving $file_saving $file_saving2;; #$file_saving dan $file_saving2 merujuk pd baris 38 dan 39
         "4")
             read -p "apakah anda yakin ingin keluar?[y/n]: " desicion
-            if [ $desicion == "y" ]
+            if [ $desicion == "y" ] || [ $desicion == "Y" ]
             then 
                 exit 0
             else
                 clear
                 main
             fi;;
+        *)
+            main
     esac
 }
 
