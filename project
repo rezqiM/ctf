@@ -52,10 +52,7 @@ saving(){
         read -p "masukkan nama folder baru: " nameOfFolder
         if [ -d "$nameOfFolder" ]
         then
-            echo "folder sudah ada"
-            sleep 2
-            clear
-            main
+            echo "folder sudah ada";sleep 2;clear; main
         else
             mkdir $nameOfFolder
         fi
@@ -63,9 +60,7 @@ saving(){
         read -p "masukkan nama file untuk menyimpan: " newFile
         if [ -f "$newFile*" ]
         then
-            echo "file sudah ada"
-            sleep 2
-            clear; main
+            echo "file sudah ada";sleep 2;clear; main
         else
             diet_file="$newFile+polaMakan"
             exercise_file="$newFile+polaOlahraga"
@@ -75,18 +70,14 @@ saving(){
         echo "$text" > $nameOfFolder/$diet_file
         echo "$text2" > $nameOfFolder/$exercise_file
         echo "berhasil menyimpan"
-        sleep 2
-        clear
-        main
+        sleep 2;clear;main
         fi
     else
         read -p "masukkan nama file untuk menyimpan: " newFile
         if [ -f "$newFile+polaMakan" ] && [ -f "$newFile+polaOlahraga" ]
         then
             echo "file sudah ada"
-            sleep 2
-            clear
-            main
+            sleep 2;clear;main
         else
             diet_file="$newFile+polaMakan"
             exercise_file="$newFile+polaOlahraga"
@@ -97,9 +88,7 @@ saving(){
         echo "$text" > $diet_file
         echo "$text2" > $exercise_file
         echo "berhasil menyimpan"
-        sleep 2
-        clear
-        main
+        sleep 2;clear;main
         fi
     fi
 }
