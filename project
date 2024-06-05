@@ -1,8 +1,10 @@
 #!/bin/bash
 
-echo "selamat datang di aplikasiku ini"
+echo "==========DHYLIFE============"
+echo -e "  BUAT DIETMU LEBIH TERTATA\n"
 read -p "masukkan berat badanmu(kg): " bb
 read -p "masukkan tinggi badan(m): " tb
+
 
 calculate_bim(){
     beratBadan=$1
@@ -26,10 +28,12 @@ category_bim(){
     fi
 }
 
+result_of_bim=`calculate_bim $bb $tb`
+status=`category_bim $result_of_bim`
+
 main(){
-    result_of_bim=`calculate_bim $bb $tb`
+    
     echo "indeks massa tubuhmu: $result_of_bim"
-    status=`category_bim $result_of_bim`
     echo -e "status: $status\n"
 
     menu
@@ -68,8 +72,8 @@ saving(){
         echo "file berhasil dibuat"
         echo "menyimpan..."
         sleep 1.5
-        echo $file_saving > $nameOfFolder/$diet_file
-        echo $file_saving2 > $nameOfFolder/$exercise_file
+        echo "$text" > $nameOfFolder/$diet_file
+        echo "$text2" > $nameOfFolder/$exercise_file
         echo "berhasil menyimpan"
         sleep 2
         clear
@@ -90,13 +94,37 @@ saving(){
         echo "file berhasil dibuat"
         echo "menyimpan..."
         sleep 1.5
-        echo $file_saving > $diet_file
-        echo $file_saving2 > $exercise_file
+        echo "$text" > $diet_file
+        echo "$text2" > $exercise_file
         echo "berhasil menyimpan"
         sleep 2
         clear
         main
         fi
+    fi
+}
+
+diet(){
+    status=$1
+    if [ "$status" == "kurang gizi" ]
+    then
+        echo -e "Rekomendasi Pola Makan untuk Kurang Gizi:\nSarapan (06.00)\n- Roti isi selai (4 iris)\n- Telur rebus (2 butir)\n- Susu (1 gelas)\nMakan pagi (09.00)\n- Nasi (1,5 gelas)\n- Ungkep daging (1 potong)\n- Sup kacang polong dan wortel (1 mangkuk)\n- Jeruk\nMakan siang (13.00)\n- Nasi merah (1,75 gelas)\n- Pepes ikan mas (1 potong)\n- Ayam goreng (1 potong)\n- Tempe goreng (2 potong)\n- Sayur bayam (1 mangkuk)\n- Pepaya (1 potong)\n- Lalapan (secukupnya)\nCamilan sore (15.00)\n- Bolu kukus (1 potong)\n- Kroket kentang (1 potong)\n- Teh manis (1 gelas)\nMakan malam (19.00)\n- Nasi (1,75 gelas)\n- Bandeng presto (1 potong)\n- Lodeh tolo (1 mangkuk)\n- Nanas (1 potong)\nSebelum Tidur (21.00)\n- Susu (1 gelas)\n"
+    elif [ "$status" == "ideal" ]
+    then
+        echo -e "Rekomendasi Pola Makan untuk Ideal:\nSarapan (06.00)\n- Roti gandum utuh (1 iris)\n- Telur rebus (1 butir)\n- Susu rendah lemak (1 gelas)\n- Makan pagi (09.00)\n- Nasi merah (1/2 gelas)\n- Daging ayam tanpa kulit (1 potong)\n- Tumis sayur bayam dan wortel (1 mangkuk)\n- Jeruk (2 buah sedang)\nMakan siang (13.00)\n- Nasi merah (3/4 gelas)\n- Pepes ikan nila (1 potong)\n- Ayam bakar tanpa kulit (1 potong)\n- Sayur kangkung (1 mangkuk)\n- Pepaya (1 potong)\n- Lalapan (secukupnya)\nCamilan sore (15.00)\n- Jeruk (2 buah)\nMakan malam (19.00)\n- Nasi merah (3/4 gelas)\n- Sate ati ayam (3 tusuk)\n- Bandeng presto (1 potong)\n- Lodeh nangka muda (1 mangkuk)\n"
+    else
+        echo -e "Rekomendasi Pola Makan untuk Obesitas:\nSarapan (06.00)\n- Roti bakar tanpa margarin (1 iris)\n- Telur rebus (1 butir)\n- Susu (1 gelas)\nMakan Pagi (09.00)\n- Nasi (1/2 gelas)\n- Ungkep daging (1 potong)\n- Sup kacang polong, wortel (1 mangkuk)\n- Jeruk (2 buah)\nMakan Siang (13.00)\n- Nasi (3/4 gelas)\n- Pepes ikan (1 potong)\n- Ayam bakar (1 potong)\n- Sayur bayam (1 mangkuk)\n- Pepaya (1 buah)\nCemilan Sore (15.00)\n- Jeruk (2 buah)\nMakan Malam (19.00)\n- Nasi (3/4 gelas)\n- Sate ati (3 tusuk)\n- Bandeng presto (1 potong)\n- Lodeh tolo (1 mangkuk)\n"
+    fi
+}
+
+exercise(){
+    status=$1
+    if [ "$status" == "kurang gizi" ]; then
+        echo -e "Rekomendasi Olahraga untuk Kurang Gizi:\n- Fokus pada olahraga ringan seperti yoga dan stretching\n- Hindari aktivitas fisik yang terlalu berat\n- Lakukan olahraga yang meningkatkan nafsu makan\n"
+    elif [ "$status" == "ideal" ]; then
+        echo -e "Rekomendasi Olahraga untuk Ideal:\n- Lakukan kombinasi olahraga kardio dan kekuatan\n- Jaga rutinitas olahraga minimal 3-4 kali seminggu\n- Variasikan jenis olahraga untuk kebugaran yang menyeluruh\n"
+    else
+        echo -e "Rekomendasi Olahraga untuk Obesitas:\n- Mulai dengan olahraga ringan seperti jalan kaki atau berenang\n- Tingkatkan intensitas secara bertahap\n- Fokus pada olahraga yang membakar kalori seperti joging 3 kali/ minggu , setiap latihan dilakukan 30 menit\n"
     fi
 }
 
@@ -111,13 +139,17 @@ menu(){
     case "$menu" in
         "1")
             clear
-            echo "menu 1";;
+            diet "$status"
+            main;;
         "2")
             clear
-            echo "menu 2";;
+            exercise "$status"
+            main;;
         "3")
             clear
-            saving $file_saving $file_saving2;; #$file_saving dan $file_saving2 merujuk pd baris 38 dan 39
+            pola_makan=`diet "$status"`
+            pola_olahraga=`exercise "$status"`
+            saving "$pola_makan" "$pola_olahraga";; #$file_saving dan $file_saving2 merujuk pd baris 38 dan 39
         "4")
             read -p "apakah anda yakin ingin keluar?[y/n]: " desicion
             if [ $desicion == "y" ] || [ $desicion == "Y" ]
