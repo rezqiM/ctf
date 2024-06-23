@@ -79,9 +79,9 @@ saving(){
             clear
             main
         else
-            mkdir $nameOfFolder
+            mkdir "$nameOfFolder"
         fi
-        echo "folder $nameOfFolder berhasil dibuat"
+        echo "folder '$nameOfFolder' berhasil dibuat"
         read -p "masukkan nama file untuk menyimpan: " newFile
         if [ -f "$newFile*" ]
         then
@@ -94,8 +94,8 @@ saving(){
         echo "file berhasil dibuat"
         echo "menyimpan..."
         sleep 1.5
-        echo "$text" > $nameOfFolder/$diet_file
-        echo "$text2" > $nameOfFolder/$exercise_file
+        echo "$text" > "$nameOfFolder/$diet_file"
+        echo "$text2" > "$nameOfFolder/$exercise_file"
         echo "berhasil menyimpan"
         sleep 2
         clear
