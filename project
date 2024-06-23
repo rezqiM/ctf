@@ -1,9 +1,31 @@
 #!/bin/bash
 
+if ! command -v bc &> /dev/null
+then
+    echo "bc tidak ditemukan, menginstal bc..."
+    sudo apt-get update && sudo apt-get install -y bc
+
+    # Cek kembali apakah instalasi bc berhasil
+    if ! command -v bc &> /dev/null
+    then
+        echo "Gagal menginstal bc. Harap instal secara manual."
+        exit 1
+    else
+        echo "bc berhasil diinstal."
+    fi
+fi
+
 echo "==========DHYLIFE============"
 echo -e "  BUAT DIETMU LEBIH TERTATA\n"
 read -p "masukkan berat badanmu(kg): " bb
-read -p "masukkan tinggi badan(m): " tb
+while true; do
+    read -p "masukkan tinggi badan(m): " tb
+    if [ $(echo "$tb == 0" | bc) -eq 1 ]; then
+        echo "Tinggi badan tidak boleh 0. Silakan masukkan tinggi badan yang valid."
+    else
+        break
+    fi
+done
 
 
 calculate_bim(){
@@ -52,7 +74,10 @@ saving(){
         read -p "masukkan nama folder baru: " nameOfFolder
         if [ -d "$nameOfFolder" ]
         then
-            echo "folder sudah ada";sleep 2;clear; main
+            echo "folder sudah ada"
+            sleep 2
+            clear
+            main
         else
             mkdir $nameOfFolder
         fi
@@ -60,7 +85,9 @@ saving(){
         read -p "masukkan nama file untuk menyimpan: " newFile
         if [ -f "$newFile*" ]
         then
-            echo "file sudah ada";sleep 2;clear; main
+            echo "file sudah ada"
+            sleep 2
+            clear; main
         else
             diet_file="$newFile+polaMakan"
             exercise_file="$newFile+polaOlahraga"
@@ -70,14 +97,18 @@ saving(){
         echo "$text" > $nameOfFolder/$diet_file
         echo "$text2" > $nameOfFolder/$exercise_file
         echo "berhasil menyimpan"
-        sleep 2;clear;main
+        sleep 2
+        clear
+        main
         fi
     else
         read -p "masukkan nama file untuk menyimpan: " newFile
         if [ -f "$newFile+polaMakan" ] && [ -f "$newFile+polaOlahraga" ]
         then
             echo "file sudah ada"
-            sleep 2;clear;main
+            sleep 2
+            clear
+            main
         else
             diet_file="$newFile+polaMakan"
             exercise_file="$newFile+polaOlahraga"
@@ -88,7 +119,9 @@ saving(){
         echo "$text" > $diet_file
         echo "$text2" > $exercise_file
         echo "berhasil menyimpan"
-        sleep 2;clear;main
+        sleep 2
+        clear
+        main
         fi
     fi
 }
